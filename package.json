@@ -2,6 +2,9 @@
   "name": "inject-in-tag",
   "version": "0.0.0",
   "description": "My super-excellent module",
+  "bin": {
+    "inject-in-tag": "bin/inject-in-tag.js"
+  },
   "license": "MIT",
   "repository": "jfmengels/inject-in-tag",
   "author": {
@@ -24,10 +27,14 @@
     "tag",
     "markdown"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "fs-extra": "^0.30.0",
+    "pify": "^2.3.0"
+  },
   "devDependencies": {
     "ava": "^0.15.1",
     "nyc": "^6.4.0",
+    "tempfile": "^1.1.1",
     "xo": "^0.15.0"
   },
   "xo": {

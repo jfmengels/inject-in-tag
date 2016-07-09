@@ -1,5 +1,5 @@
 import test from 'ava';
-import inject from './';
+import inject from '../';
 
 test('should replace the content inside a tag', t => {
   const newContent = {
