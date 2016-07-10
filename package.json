@@ -1,7 +1,7 @@
 {
   "name": "inject-in-tag",
   "version": "0.0.0",
-  "description": "My super-excellent module",
+  "description": "Inject content into Markdown files",
   "bin": {
     "inject-in-tag": "bin/inject-in-tag.js"
   },

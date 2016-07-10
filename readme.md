@@ -1,6 +1,6 @@
 # inject-in-tag [![Build Status](https://travis-ci.org/jfmengels/inject-in-tag.svg?branch=master)](https://travis-ci.org/jfmengels/inject-in-tag)
 
-> My super-excellent module
+> Inject content into Markdown files
 
 
 ## Install
@@ -9,35 +9,82 @@
 $ npm install --save inject-in-tag
 ```
 
+In Markdown, you can create comment tags of the form `<!-- foo bar -->` that will not appear to the user when rendered.
+Using this system, we can use start and end tags to delimit sections and replace the content in between by new content.
 
-## Usage
+## Programmatic usage
+
+In the following example, we want to inject the contents of `resource` into `markDownContent`, some markdown file content.
+We will inject the value of each key between tags that contain the key in the tag. Here, we will inject:
+- `'\nSome new and better content\n'` between `<!-- SOME-TAG:START -->` and `<!-- SOME-TAG:END -->`
+- `'Other content` between `<!-- SOME-OTHER-TAG:START -->` and `<!-- SOME-OTHER-TAG:END -->`
 
 ```js
-const injectInTag = require('inject-in-tag');
+const inject = require('inject-in-tag');
 
-injectInTag('unicorns');
-//=> 'unicorns & rainbows'
+const resource = {
+  'SOME-TAG': '\nSome new and better content\n',
+  'SOME-OTHER-TAG': 'Other content'
+}
+
+const markDownContent = `
+# Title
+
+Lorem ipsum
+
+## Sub-title
+
+<!-- SOME-TAG:START -->
+  Some content
+<!-- SOME-TAG:END -->
+
+<!-- SOME-OTHER-TAG:START -->Foo<!-- SOME-OTHER-TAG:END -->
+
+Lotem ipsum
+`;
+
+const result = inject(resource, markDownContent);
+result === `
+# Title
+
+Lorem ipsum
+
+## Sub-title
+
+<!-- SOME-TAG:START -->
+  Some new and better content
+<!-- SOME-TAG:END -->
+
+<!-- SOME-OTHER-TAG:START -->Other content<!-- SOME-OTHER-TAG:END -->
+
+Lotem ipsum
+`
 ```
 
 
 ## API
 
-### injectInTag(input, [options])
+### inject(resource, content)
 
-#### input
+Injects the contents of `resource` into `content`.
+If you have
 
-Type: `string`
+#### resource
 
-Lorem ipsum.
+Object with tag-name and content to inject pairs.
 
-#### options
+#### content
 
-##### foo
+String content, that will be updated using `resource`
 
-Type: `boolean`<br>
-Default: `false`
 
-Lorem ipsum.
+## CLI
+
+```shell
+inject-in-tag path/to/resource path/to/file/to/inject/in-1 path/to/file/to/inject/in-2 ...
+```
+
+`path/to/resource` must be a JavaScript file that directly exports a resource object (like `module.exports = {'SOME-TAG': 'content'}`). The CLI will then inject the contents of the tags in all the following files.
 
 
 ## License
