@@ -83,7 +83,7 @@ String content, that will be updated using `resource`
 inject-in-tag path/to/resource path/to/file/to/inject/in-1 path/to/file/to/inject/in-2 ...
 ```
 
-`path/to/resource` must be a JavaScript file that directly exports a resource object (like `module.exports = {'SOME-TAG': 'content'}`). The CLI will then inject the contents in the tags of each of the following files.
+`path/to/resource` must be a JavaScript file that exports a resource object, either directly (like `module.exports = {'SOME-TAG': 'content'};`) or through a Promise (like `module.exports = Promise.resolve({'SOME-TAG': 'content'});`). The CLI will then inject the contents in the tags of each of the following files.
 
 
 ## License

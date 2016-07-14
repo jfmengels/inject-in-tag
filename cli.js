@@ -13,7 +13,7 @@ module.exports = function (resourceFile, files) {
   assert(resourceFile, 'Expected a resource file as first argument');
   assert(files && files.length > 0, 'Expected at least one file to inject content into');
 
-  var resource = require(path.resolve(resourceFile));
+  var resourceP = Promise.resolve(require(path.resolve(resourceFile)));
   var readPromises = files.map(function (file) {
     return readFileP(file, 'utf8')
       .then(function (content) {
@@ -25,8 +25,10 @@ module.exports = function (resourceFile, files) {
   });
   return Promise.all(readPromises)
     .then(function (readResults) {
-      return readResults.map(function (result) {
-        return writeFileP(result.file, inject(resource, result.content));
+      return resourceP.then(function (resource) {
+        return readResults.map(function (result) {
+          return writeFileP(result.file, inject(resource, result.content));
+        });
       });
     });
 };

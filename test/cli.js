@@ -31,6 +31,32 @@ const expectedContent2 = [
   ''
 ].join('\n');
 
+test('should inject the values from a resource file that directly exports data into a file', async t => {
+  const file = tempfile('.md');
+
+  await copyP('./fixtures/markdown-base-1.md', file);
+  await cli('../test/fixtures/resource-direct-export', [file]);
+
+  const content = await readFileP(file, 'utf8');
+
+  await removeP(file);
+
+  t.is(content, expectedContent1);
+});
+
+test('should inject the values from a resource file that exports a Promise into a file', async t => {
+  const file = tempfile('.md');
+
+  await copyP('./fixtures/markdown-base-1.md', file);
+  await cli('../test/fixtures/resource-promise', [file]);
+
+  const content = await readFileP(file, 'utf8');
+
+  await removeP(file);
+
+  t.is(content, expectedContent1);
+});
+
 test('should inject the values from a resource file into multiple files', async t => {
   const tempfile1 = tempfile('.md');
   const tempfile2 = tempfile('.md');
@@ -40,7 +66,7 @@ test('should inject the values from a resource file into multiple files', async 
     copyP('./fixtures/markdown-base-2.md', tempfile2)
   ]);
 
-  await cli('../test/fixtures/resource', [tempfile1, tempfile2]);
+  await cli('../test/fixtures/resource-direct-export', [tempfile1, tempfile2]);
 
   const [content1, content2] = await Promise.all([
     readFileP(tempfile1, 'utf8'),
@@ -65,14 +91,14 @@ test('should throw if no resource file is given', async t => {
 
 test('should throw if no files are given', async t => {
   t.throws(
-    () => cli('../test/fixtures/resource'),
+    () => cli('../test/fixtures/resource-direct-export'),
     'Expected at least one file to inject content into'
   );
 });
 
 test('should throw if files is an empty array', async t => {
   t.throws(
-    () => cli('../test/fixtures/resource'),
+    () => cli('../test/fixtures/resource-direct-export'),
     'Expected at least one file to inject content into'
   );
 });
