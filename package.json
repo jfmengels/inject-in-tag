@@ -1,6 +1,6 @@
 {
   "name": "inject-in-tag",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Inject content into Markdown files",
   "bin": {
     "inject-in-tag": "bin/inject-in-tag.js"
