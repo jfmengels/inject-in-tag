@@ -40,7 +40,7 @@ Lorem ipsum
 
 <!-- SOME-OTHER-TAG:START -->Foo<!-- SOME-OTHER-TAG:END -->
 
-Lotem ipsum
+Lorem ipsum
 `;
 
 const result = inject(resource, markDownContent);
@@ -57,7 +57,7 @@ Lorem ipsum
 
 <!-- SOME-OTHER-TAG:START -->Other content<!-- SOME-OTHER-TAG:END -->
 
-Lotem ipsum
+Lorem ipsum
 `
 ```
 
@@ -67,7 +67,6 @@ Lotem ipsum
 ### inject(resource, content)
 
 Injects the contents of `resource` into `content`.
-If you have
 
 #### resource
 
@@ -84,7 +83,7 @@ String content, that will be updated using `resource`
 inject-in-tag path/to/resource path/to/file/to/inject/in-1 path/to/file/to/inject/in-2 ...
 ```
 
-`path/to/resource` must be a JavaScript file that directly exports a resource object (like `module.exports = {'SOME-TAG': 'content'}`). The CLI will then inject the contents of the tags in all the following files.
+`path/to/resource` must be a JavaScript file that directly exports a resource object (like `module.exports = {'SOME-TAG': 'content'}`). The CLI will then inject the contents in the tags of each of the following files.
 
 
 ## License
